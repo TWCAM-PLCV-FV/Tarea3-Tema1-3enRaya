@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html > 
+	<head>
+		<meta charset=utf-8> 
+		<title>3 en Raya</title>
+		<link rel="stylesheet" href="styles/style.css" type="text/css"> 
+	</head> 
+	
+	<body>
+		<img class="imgX" src="resources/x.png" id="carta1" alt="carta1" draggable="true" ondragstart="drag(event,this.id)"> 
+		<img class="imgO" src="resources/o.png" id="carta2" alt="carta2" draggable="true" ondragstart="drag(event,this.id)"> 
+		</br>
+		<div class="grid-container">
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+			<div ondrop="drop(event)" ondragover="okDrag(event)"></div>
+		</div>
+	</body>
+
+	<script>
+		function drag(ev,value){
+			ev.dataTransfer.setData("image/png", ev.target.id);
+			let cloned= document.getElementById(value);
+			console.log(cloned);
+		}
+		
+		function okDrag(ev){
+			ev.preventDefault();
+		}
+
+		function drop(ev) {
+        	ev.preventDefault();
+        	var datos = ev.dataTransfer.getData("image/png");
+			var boleeanElemento = "carta1" == datos || "carta2" == datos;
+			var elementoClonado = document.getElementById(datos).cloneNode(true);
+			elementoClonado.id = "img" + ev.target.id;
+
+			if (boleeanElemento) {
+				if (ev.target.nodeName == 'IMG') {
+					ev.target.parentNode.appendChild(elementoClonado);
+					removeNode(ev.target);
+				} else
+					ev.target.appendChild(elementoClonado);
+			}
+			else{
+				if (ev.target.nodeName != 'IMG') {
+					removeNode(document.getElementById(datos));
+					ev.target.appendChild(elementoClonado);
+				}
+			}
+		}
+	</script>
+
+</html>
